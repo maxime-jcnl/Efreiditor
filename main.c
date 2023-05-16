@@ -5,6 +5,7 @@
 #include "./assets/struct.h"
 #include "./assets/id.h"
 #include "./assets/area.h"
+#include "./assets/pixel.h"
 
 
 int main() {
@@ -13,52 +14,38 @@ int main() {
     char target[15];
     int quit = 0;
     int counter = 0;
-    Area *area = create_area(10,15);
+    Pixel** pixel_tab = NULL;
+
+
+    Area *area = create_area(50,50);
     clear_area(area);
-    print_area(area);
-
-
 
     while(quit==0){
-
-        /*#ifdef _WIN32
-        system("cls");
-        #else
         system("clear");
-        #endif*/
+        print_area(area);
 
         // Boucle infinie pour garder le terminal ouvert
         printf("\n---> ");  // Symbole d'attente d'entrée de l'utilisateur
         scanf("%s", instruction);
-
         if(strcmp(instruction,"add")==0){ // "strcmp" permet de comparer deux chaines de caractère
-            // Choix de la forme :π
+            // Choix de la forme :
             scanf("%s", target);
             if(strcmp(target,"point")==0){ // Si Point
                 int x,y;
                 scanf("%d %d", &x,&y);
-                /*
-                Point* p = create_point(x,y); // Création d'un pointeur point
-                print_point(p);*/
                 Shape * shp = create_point_shape(x,y);
                 add_shape_to_area(area,shp);
             }
             else if(strcmp(target,"line")==0){ //
                 int x1,y1,x2,y2;
                 scanf("%d %d %d %d",&x1,&y1,&x2,&y2);
-                /*Point* p1= create_point(x1,y1);
-                Point* p2= create_point(x2,y2);
-                Line* l = create_line(p1,p2);
-                print_line(l);*/
                 Shape *shp = create_line_shape(x1,y1,x2,y2);
                 add_shape_to_area(area,shp);
             }
             else if(strcmp(target,"square")==0){
                 int x,y,l;
                 scanf("%d %d %d",&x,&y,&l);
-                /*Point *p= create_point(x,y);
-                Square *s= create_square(p,l);
-                print_square(s);*/
+
                 Shape *shp = create_square_shape(x,y,l);
                 add_shape_to_area(area,shp);
             }
@@ -70,6 +57,7 @@ int main() {
                 print_rectangle(r);*/
                 Shape *shp = create_rectangle_shape(x,y,w,h);
                 add_shape_to_area(area,shp);
+
             }
             else if(strcmp(target,"circle")==0){
                 int x,y,r;
@@ -91,9 +79,6 @@ int main() {
             else{
                 printf("Forme inconnue, veuillez réessayez\n");
             }
-
-            print_shape(area->shapes[counter++]);
-
         }
         else if(strcmp(instruction,"help")==0){
             print_help();
@@ -107,6 +92,9 @@ int main() {
         }
         else if(strcmp(instruction,"delete")==0){
             delete_area(area);
+        }
+        else if(strcmp(instruction,"draw")==0){
+            draw_area(area);
         }
     }
 }
