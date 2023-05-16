@@ -3,6 +3,7 @@
 //
 #include "struct.h"
 #include "area.h"
+#include "pixel.h"
 #include <stdlib.h>
 #include <stdio.h>
 Area* create_area(unsigned int width, unsigned int height){
@@ -11,7 +12,7 @@ Area* create_area(unsigned int width, unsigned int height){
     a->height=height;
     a->mat = (BOOL**)malloc(height * sizeof(BOOL*));
     for (int i = 0; i < a->height; i++) {
-        a->mat[i] = (BOOL**)calloc(width, sizeof(BOOL*));
+        a->mat[i] = (BOOL*)calloc(width, sizeof(BOOL));
     }
     a->nb_shape = 0;
     for(int i = 0; i < SHAPE_MAX; i++) {
@@ -28,6 +29,7 @@ void clear_area(Area* area){
 }
 void print_area(Area* area){
     for(int i=0; i<area->height;i++){
+        printf("\n");
         for(int j= 0; j<area->width;j++){
             if(area->mat[i][j]==0){
                 printf(". ");
@@ -35,7 +37,6 @@ void print_area(Area* area){
                 printf("# ");
             }
         }
-        printf("\n");
     }
 }
 void add_shape_to_area(Area* area,Shape* shape){
@@ -53,4 +54,21 @@ void delete_area(Area* area){
     erase_area(area);
     free(area);
     area=NULL;
+}
+void draw_area(Area* area) {
+    int nb_pixel=0;
+    int draw_x=0;
+    int draw_y=0;
+
+    Pixel **draw_tab = NULL;
+    for (int i = 0; i < area->nb_shape; i++) {
+        draw_tab = create_shape_to_pixel(area->shapes[i], &nb_pixel);
+        for(int j = 0; j<nb_pixel;j++){
+            draw_x=draw_tab[j]->px;
+            draw_y=draw_tab[j]->py;
+            if(draw_x<area->height && draw_y<area->width){
+                area->mat[draw_y][draw_x]=1;
+            }
+        }
+    }
 }

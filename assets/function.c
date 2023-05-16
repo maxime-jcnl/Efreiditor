@@ -4,10 +4,11 @@
 #include "struct.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include "pixel.h"
 #include "id.h"
 // Point
 Point *create_point(int px, int py){
-    Point* p=(Point*)malloc(sizeof (Point*));
+    Point* p=(Point*)malloc(sizeof (Point));
     p->pos_x=px;
     p->pos_y=py;
     return p;
@@ -22,7 +23,7 @@ void delete_point(Point * p){
 
 // Line
 Line *create_line(Point * p1, Point * p2){
-    Line* l=(Line*)malloc(2*(sizeof(Line*)));
+    Line* l=(Line*)malloc(2*(sizeof(Line)));
     l->p1=p1;
     l->p2=p2;
     return l;
@@ -37,7 +38,7 @@ void delete_line(Line * line){
 
 //Square
 Square *create_square(Point * point, int length){
-    Square* s=(Square*)malloc(sizeof(Square*));
+    Square* s=(Square*)malloc(sizeof(Square));
     s->p=point;
     s->l=length;
     return s;
@@ -52,7 +53,7 @@ void delete_square(Square * square){
 
 //Rectangle
 Rectangle *create_rectangle(Point * point, int width, int height){
-    Rectangle *r=(Rectangle*) malloc(sizeof(Rectangle*));
+    Rectangle *r=(Rectangle*) malloc(sizeof(Rectangle));
     r->p=point;
     r->w=width;
     r->h=height;
@@ -63,12 +64,12 @@ void delete_rectangle(Rectangle * rectangle){
     rectangle=NULL;
 }
 void print_rectangle(Rectangle * rectangle){
-    printf("RECTANGLE %d %d %d %d",rectangle->p->pos_x,rectangle->p->pos_y,rectangle->w,rectangle->h);
+    printf("\nRECTANGLE %d %d %d %d",rectangle->p->pos_x,rectangle->p->pos_y,rectangle->w,rectangle->h);
 }
 
 //Circle
 Circle *create_circle(Point * point, int circle_radius){
-    Circle *c=(Circle*)malloc(sizeof(Circle*));
+    Circle *c=(Circle*)malloc(sizeof(Circle));
     c->p=point;
     c->r=circle_radius;
     return c;
@@ -114,13 +115,13 @@ void delete_polygon(Polygon * p){
 //Shape
 Shape *create_empty_shape(SHAPE_TYPE shape_type) {
     Shape *shp = (Shape *) malloc(sizeof(Shape));
-    shp->ptrShape = NULL;
     shp->id = get_next_id(); // plus tard on appellera get_next_id();
     shp->shape_type = shape_type;
     return shp;
 }
 Shape *create_point_shape(int px, int py) {
     Shape *shp = create_empty_shape(POINT);
+    shp->ptrShape = NULL;
     Point *p = create_point(px, py);
     shp->ptrShape = p;
     return shp;
@@ -166,7 +167,7 @@ void delete_shape(Shape * shape){
     shape = NULL;
 }
 void print_shape(Shape * shape){
-    printf("%d",shape->id);
+    printf("\n%d",shape->id);
     if(shape->shape_type==POINT){
         print_point(shape->ptrShape);
     }

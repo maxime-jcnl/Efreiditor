@@ -26,6 +26,6 @@ void clear_area(Area* area);
 void add_shape_to_area(Area* area,Shape* shape);
 void erase_area(Area* area);
 void delete_area(Area* area);
-
+void draw_area(Area* area);
 
 #endif //PROJET_C_VMAC_AREA_H
